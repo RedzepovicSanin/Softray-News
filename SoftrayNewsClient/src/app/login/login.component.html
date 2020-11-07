@@ -1,0 +1,43 @@
+<div class="login-page">
+  <p>Sign in</p>
+  <form class="form login-page-form" [formGroup]="loginForm" (ngSubmit)="login()">
+
+    <div class="login-page-input">
+      <label>USERNAME</label>
+      <input id="username" name="username" class="form-control" type="input" formControlName="username" required>
+
+      <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger login-page-input-close">
+        <div *ngIf="username.errors.required">
+          username is required.
+        </div>
+        <div *ngIf="username.errors.username">
+          Enter valid username address.
+        </div>
+        <div class="login-page-input-close-button" (click)="closeValidationInfo(username)">X</div>
+      </div>
+    </div>
+
+    <div class="login-page-input">
+      <label>PASSWORD</label>
+      <input id="password" name="password" class="form-control" type="password" formControlName="password" required>
+
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger login-page-input-close">
+        <div *ngIf="password.errors.required">
+          Password is required.
+        </div>
+        <div class="login-page-input-close-button" (click)="closeValidationInfo(password)">X</div>
+      </div>
+    </div>
+
+    <div class="login-page-buttons">
+      <button class="btn btn-secondary" type="submit">Sign in</button>
+    </div>
+
+  </form>
+
+  <div *ngIf="loginFailed" class="alert alert-danger login-page-invalid">
+    <div>username or password invalid!</div>
+    <div class="login-page-invalid-button" (click)="reset()">X</div>
+  </div>
+
+</div>

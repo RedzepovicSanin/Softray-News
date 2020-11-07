@@ -1,0 +1,35 @@
+.news-header {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(110, 7, 110);
+    color: white;
+    .news-header-logo {
+        font-size: 32px;
+    }
+}
+
+.news-main {
+    .news-main-specificNews {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: #aeaeae;
+        color: black;
+        .news-main-specificNews-title {
+            font-size: 24px;
+            font-weight: 500;
+        }
+        .news-main-specificNews-text {
+            font-size: 16px;
+            font-weight: 200;
+        }
+    }
+    .news-main-specificNews:hover {
+        opacity: 0.5;
+        cursor: pointer;
+    }
+}

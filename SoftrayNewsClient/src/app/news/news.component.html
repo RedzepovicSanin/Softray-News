@@ -1,0 +1,30 @@
+
+<div>
+    <div class="news-header p-5">
+        <div class="news-header-logo">
+            <span>SOFTRAY NEWS</span>
+        </div>
+        <div class="news-header-action-buttons">
+            <button class="btn btn-secondary" [routerLink]="['/login']">Login</button>
+        </div>
+    </div>
+    <div>
+
+    </div>
+    <div class="news-main container">
+        <ng-container *ngIf="news">
+            <div *ngFor="let specificNews of news">
+                <div class="news-main-specificNews p-3 m-3">
+                    <div class="d-flex flex-column">
+                        <span class="news-main-specificNews-title">{{specificNews.title}}</span>
+                        <span class="news-main-specificNews-text">{{specificNews.text}}</span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span>{{specificNews.dateInserted | date: "dd/MM/yyyy HH:mm"}}</span>
+                        <span>{{'Author: ' + specificNews.userCreated.name}}</span>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

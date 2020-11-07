@@ -25,6 +25,7 @@ namespace SoftrayNewsAPI
         }
 
         public IConfiguration Configuration { get; }
+        readonly string corsPolicy = "CorsPolicy";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -41,6 +42,17 @@ namespace SoftrayNewsAPI
                 });
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(corsPolicy,
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
+
             services.AddScoped<INewsService, NewsService>();
         }
 
@@ -51,6 +63,8 @@ namespace SoftrayNewsAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(corsPolicy);
 
             app.UseHttpsRedirection();
 
