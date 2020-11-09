@@ -10,12 +10,6 @@ namespace SoftrayNewsAPI.DL.Models
 {
     public class User
     {
-        //public User(int id, string name, DateTime date)
-        //{
-        //    Id = id;
-        //    Name = name;
-        //    DateInserted = date;
-        //}
         [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }

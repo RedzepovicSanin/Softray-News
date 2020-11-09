@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoftrayNewsAPI.DL.DBContext;
 using SoftrayNewsAPI.DL.Models;
+using SoftrayNewsAPI.Utils;
 using SoftrayNewsAPI.Services;
 
 namespace SoftrayNewsAPI.Controllers
@@ -26,11 +27,11 @@ namespace SoftrayNewsAPI.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        public async Task<ActionResult<List<User>>> GetAll()
+        public ActionResult<List<User>> GetAll()
         {
             try
             {
-                List<User> userList = await _userService.GetAllUsers();
+                List<User> userList = _userService.GetAllUsers();
 
                 return userList;
             }
@@ -111,6 +112,7 @@ namespace SoftrayNewsAPI.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] AuthModel model)
         {

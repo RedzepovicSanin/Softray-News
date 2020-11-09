@@ -8,7 +8,7 @@ namespace SoftrayNewsAPI.Services
 {
     public interface IUserService
     {
-        Task<List<User>> GetAllUsers();
+        List<User> GetAllUsers();
         Task<User> GetUserById(int id);
         Task<User> InsertUser(User user);
         Task<User> UpdateUser(User user);

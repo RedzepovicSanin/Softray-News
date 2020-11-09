@@ -1,6 +1,6 @@
 <div class="login-page">
   <p>Sign in</p>
-  <form class="form login-page-form" [formGroup]="loginForm" (ngSubmit)="login()">
+  <form class="form login-page-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
     <div class="login-page-input">
       <label>USERNAME</label>
@@ -36,7 +36,7 @@
   </form>
 
   <div *ngIf="loginFailed" class="alert alert-danger login-page-invalid">
-    <div>username or password invalid!</div>
+    <div>Username or Password invalid!</div>
     <div class="login-page-invalid-button" (click)="reset()">X</div>
   </div>
 

@@ -58,7 +58,7 @@ namespace SoftrayNewsAPI
                 });
             });
 
-            var key = Encoding.ASCII.GetBytes("secret"); ;
+            var key = Encoding.ASCII.GetBytes("this is my custom secret key int32 for authentication"); ;
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AuthenticationService } from '@app/_services';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     error = '';
+    loginFailed = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -34,13 +35,12 @@ export class LoginComponent implements OnInit {
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
-
-        // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
+    get username() { return this.loginForm.get('username') }
+    get password() { return this.loginForm.get('password') }
 
     onSubmit() {
         this.submitted = true;
@@ -55,11 +55,22 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
+                    this.router.navigate(['/news']);
                 },
                 error => {
+                    this.loginFailed = true;
                     this.error = error;
                     this.loading = false;
                 });
+    }
+
+    
+    closeValidationInfo(inputValidation: AbstractControl) {
+      inputValidation.markAsUntouched();
+      inputValidation.markAsPristine();
+    }
+    
+    reset() {
+      this.loginFailed = false;
     }
 }

@@ -3,25 +3,25 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
+import { NewsComponent } from './news/news.component';
+import { LoginComponent } from './login/login.component';
 import { AppComponent } from './app.component';
 import { AppHttpInterceptor } from './app-http-interceptor';
 import { SharedModule } from './shared/shared.module';
-import { NewsComponent } from './news/news.component';
-import { LoginComponent } from './login/login.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent, 
+    AppComponent,
     NewsComponent,
     LoginComponent
   ],
   imports: [
-    SharedModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
   providers: [
     {

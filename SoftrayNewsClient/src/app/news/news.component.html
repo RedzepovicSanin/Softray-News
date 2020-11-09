@@ -5,26 +5,34 @@
             <span>SOFTRAY NEWS</span>
         </div>
         <div class="news-header-action-buttons">
-            <button class="btn btn-secondary" [routerLink]="['/login']">Login</button>
+            <button *ngIf="user === null" class="btn btn-secondary" [routerLink]="['/login']">Login</button>
+            <button *ngIf="user !== null" class="btn btn-secondary" (click)="logout()">Logout</button>
         </div>
     </div>
-    <div>
-
-    </div>
-    <div class="news-main container">
-        <ng-container *ngIf="news">
-            <div *ngFor="let specificNews of news">
-                <div class="news-main-specificNews p-3 m-3">
-                    <div class="d-flex flex-column">
-                        <span class="news-main-specificNews-title">{{specificNews.title}}</span>
-                        <span class="news-main-specificNews-text">{{specificNews.text}}</span>
-                    </div>
-                    <div class="d-flex flex-column">
-                        <span>{{specificNews.dateInserted | date: "dd/MM/yyyy HH:mm"}}</span>
-                        <span>{{'Author: ' + specificNews.userCreated.name}}</span>
-                    </div>
+    <div class="news-main">
+        <div class="news-utilites p-3">
+            <div class=news-searchBox">
+                <input class="searchInput"type="text" name="" placeholder="Search" />
+                <button class="searchButton" href="#">
+                    <i class="material-icons">
+                        search
+                    </i>
+                </button>
+            </div>
+        </div>
+        <div *ngFor="let specificNews of news" class="container">
+            <div class="p-2">
+                <span class="news-main-specificNews-title">{{specificNews.title}}</span>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-column">
+                    <span>{{specificNews.dateInserted | date: "dd/MM/yyyy HH:mm"}}</span>
+                    <span>{{'Author: ' + 'Alija Izetbegovic'}}</span>
+                </div>
+                <div>
+                    <span class="news-main-specificNews-text">{{specificNews.text}}</span>
                 </div>
             </div>
-        </ng-container>
+        </div>
     </div>
 </div>

@@ -13,6 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using SoftrayNewsAPI.Utils;
 
 namespace SoftrayNewsAPI.Services
 {
@@ -21,18 +22,24 @@ namespace SoftrayNewsAPI.Services
     {
         private readonly dbContext dbContext;
 
+
+        private List<User> _users = new List<User>
+        {
+            new User { Id = 1, FirstName = "Admin", LastName = "User", Username = "admin", Password = "admin", Role = "Administrator" },
+            new User { Id = 2, FirstName = "Normal", LastName = "User", Username = "user", Password = "user", Role ="Administrator" }
+        };
         public UserService(dbContext _dbContext)
         {
             dbContext = _dbContext;
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public List<User> GetAllUsers()
         {
             try
             {
-                List<User> news = await dbContext.User.OrderByDescending(x => x.DateInserted).Take(100).ToListAsync();
+                List<User> users = _users.ToList();
                 
-                return news;
+                return users.WithoutPasswords().ToList();
             }
             catch (Exception ex)
             {
@@ -46,7 +53,7 @@ namespace SoftrayNewsAPI.Services
             try
             {
                 User foundUser = await dbContext.User.Where(x => x.Id == id).FirstOrDefaultAsync();
-                return foundUser;
+                return foundUser.WithoutPassword();
             }
             catch (Exception ex)
             {
@@ -67,7 +74,7 @@ namespace SoftrayNewsAPI.Services
                 newUser.DateInserted = DateTime.Now;
                 dbContext.User.Add(newUser);
                 await dbContext.SaveChangesAsync();
-                return newUser;
+                return newUser.WithoutPassword();
             }
             catch (Exception ex)
             {
@@ -89,7 +96,7 @@ namespace SoftrayNewsAPI.Services
 
                     dbContext.Update(updatedUser);
                     await dbContext.SaveChangesAsync();
-                    return updatedUser;
+                    return updatedUser.WithoutPassword();
                 }
                 else
                 {
@@ -110,19 +117,13 @@ namespace SoftrayNewsAPI.Services
 
             dbContext.Update(foundUser);
             await dbContext.SaveChangesAsync();
-            return foundUser;
+            return foundUser.WithoutPassword();
         }
-
-        private List<User> _users = new List<User>
-        {
-            new User { Id = 1, FirstName = "Admin", LastName = "User", Username = "admin", Password = "admin", Role = "Administrator" },
-            new User { Id = 2, FirstName = "Normal", LastName = "User", Username = "user", Password = "user", Role ="Administrator" }
-        };
 
         public async Task<User> Authenticate(AuthModel model)
         {
             var user = _users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
-            var secret = "secret";
+            var secret = "this is my custom secret key int32 for authentication";
             // return null if user not found
             if (user == null)
                 return null;
@@ -142,7 +143,7 @@ namespace SoftrayNewsAPI.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
 
-            return user;
+            return user.WithoutPassword();
         }
     }
 }
