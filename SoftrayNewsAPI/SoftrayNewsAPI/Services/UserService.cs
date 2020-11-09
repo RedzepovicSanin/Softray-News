@@ -60,7 +60,9 @@ namespace SoftrayNewsAPI.Services
             try
             {
                 User newUser = new User();
-                newUser.Name = userForInsert.Name;
+                newUser.FirstName = userForInsert.FirstName;
+                newUser.LastName = userForInsert.LastName;
+                newUser.Role = "Administrator";
                 newUser.Status = 0;
                 newUser.DateInserted = DateTime.Now;
                 dbContext.User.Add(newUser);
@@ -81,7 +83,8 @@ namespace SoftrayNewsAPI.Services
                 User updatedUser = dbContext.User.Where(x => x.Id == userForUpdate.Id).FirstOrDefault();
                 if (updatedUser != null)
                 {
-                    updatedUser.Name = userForUpdate.Name;
+                    updatedUser.FirstName = userForUpdate.FirstName;
+                    updatedUser.LastName = userForUpdate.LastName;
                     updatedUser.Status = userForUpdate.Status;
 
                     dbContext.Update(updatedUser);
@@ -110,10 +113,16 @@ namespace SoftrayNewsAPI.Services
             return foundUser;
         }
 
+        private List<User> _users = new List<User>
+        {
+            new User { Id = 1, FirstName = "Admin", LastName = "User", Username = "admin", Password = "admin", Role = "Administrator" },
+            new User { Id = 2, FirstName = "Normal", LastName = "User", Username = "user", Password = "user", Role ="Administrator" }
+        };
+
         public async Task<User> Authenticate(AuthModel model)
         {
-            var user = await dbContext.User.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
-            var secret = "";
+            var user = _users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
+            var secret = "secret";
             // return null if user not found
             if (user == null)
                 return null;
@@ -125,14 +134,15 @@ namespace SoftrayNewsAPI.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("Administrator", user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role)
+                    new Claim("Administrator", user.Id.ToString())
                 }),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
+
+            return user;
         }
     }
 }

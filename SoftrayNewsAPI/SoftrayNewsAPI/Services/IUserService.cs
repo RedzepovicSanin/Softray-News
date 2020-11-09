@@ -13,5 +13,6 @@ namespace SoftrayNewsAPI.Services
         Task<User> InsertUser(User user);
         Task<User> UpdateUser(User user);
         Task<User> DeleteUser(int id);
+        Task<User> Authenticate(AuthModel modeld);
     }
 }
