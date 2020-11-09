@@ -1,5 +1,7 @@
 using SoftrayNewsAPI.DL.Enums;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace SoftrayNewsAPI.DL.Models
@@ -15,11 +17,14 @@ namespace SoftrayNewsAPI.DL.Models
         //    DateInserted = date;
         //    UserCreated = user;
         //}
+        [Key]
         public int Id { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
         public NewsStatus Status { get; set; }
         public DateTime DateInserted { get; set; }
+            
+        [ForeignKey("UserId")]
         public User UserCreated { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SoftrayNewsAPI.DL.Models;
@@ -9,6 +10,7 @@ using SoftrayNewsAPI.Services;
 
 namespace SoftrayNewsAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class NewsController : ControllerBase
@@ -21,6 +23,7 @@ namespace SoftrayNewsAPI.Controllers
             _newsService = newsService;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAllNews")]
         public async Task<ActionResult<List<News>>> GetAll()
         {
@@ -36,6 +39,7 @@ namespace SoftrayNewsAPI.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("Get")]
         public async Task<ActionResult<News>> Get(int id)
         {

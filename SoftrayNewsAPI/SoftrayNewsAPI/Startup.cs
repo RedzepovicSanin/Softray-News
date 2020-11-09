@@ -59,6 +59,7 @@ namespace SoftrayNewsAPI
             services.AddDbContext<dbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TESTDB")));
 
             services.AddScoped<INewsService, NewsService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
