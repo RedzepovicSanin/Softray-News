@@ -1,4 +1,4 @@
-﻿using SoftrayNewsAPI.Models;
+﻿using SoftrayNewsAPI.DL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +8,10 @@ namespace SoftrayNewsAPI.Services
 {
     public interface INewsService
     {
-        List<News> GetAllNews();
-        News GetNewsById(int id);
-        News InsertNews(News news);
-        News UpdateNews(News news);
-        News DeleteNews(int id);
+        Task<List<News>> GetAllNews();
+        Task<News> GetNewsById(int id);
+        Task<News> InsertNews(News news);
+        Task<News> UpdateNews(News news);
+        Task<News> DeleteNews(int id);
     }
 }

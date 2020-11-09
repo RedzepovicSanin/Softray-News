@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SoftrayNewsAPI.Models;
+using SoftrayNewsAPI.DL.Models;
 using SoftrayNewsAPI.Services;
 
 namespace SoftrayNewsAPI.Controllers
@@ -26,7 +26,7 @@ namespace SoftrayNewsAPI.Controllers
         {
             try
             {
-                List<News> newsList = _newsService.GetAllNews();
+                List<News> newsList = await _newsService.GetAllNews();
 
                 return newsList;
             }
@@ -41,7 +41,7 @@ namespace SoftrayNewsAPI.Controllers
         {
             try
             {
-                News news = _newsService.GetNewsById(id);
+                News news = await _newsService.GetNewsById(id);
 
                 return Ok(news);
             }
@@ -58,7 +58,7 @@ namespace SoftrayNewsAPI.Controllers
             {
                 if (news != null)
                 {
-                    News newNews = _newsService.InsertNews(news);
+                    News newNews = await _newsService.InsertNews(news);
                     return Ok(newNews);
                 }
                 else
@@ -79,7 +79,7 @@ namespace SoftrayNewsAPI.Controllers
             {
                 if (newsForEdit != null)
                 {
-                    News updatedNews = _newsService.UpdateNews(newsForEdit);
+                    News updatedNews = await _newsService.UpdateNews(newsForEdit);
                     return Ok(updatedNews);
                 }
                 else
@@ -98,7 +98,7 @@ namespace SoftrayNewsAPI.Controllers
         {
             try
             {
-                News news = _newsService.DeleteNews(id);
+                News news = await _newsService.DeleteNews(id);
                 return Ok(news);
             }
             catch (Exception ex)
