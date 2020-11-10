@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SoftrayNewsAPI.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class MigrationForInitialDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,12 @@ namespace SoftrayNewsAPI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(unicode: false, nullable: true),
+                    FirstName = table.Column<string>(unicode: false, nullable: true),
+                    LastName = table.Column<string>(unicode: false, nullable: true),
+                    Username = table.Column<string>(unicode: false, nullable: true),
+                    Password = table.Column<string>(unicode: false, nullable: true),
+                    Token = table.Column<string>(unicode: false, nullable: true),
+                    Role = table.Column<string>(unicode: false, nullable: true),
                     Status = table.Column<int>(nullable: false),
                     DateInserted = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
@@ -32,23 +37,23 @@ namespace SoftrayNewsAPI.Migrations
                     Text = table.Column<string>(unicode: false, nullable: true),
                     Status = table.Column<int>(nullable: false),
                     DateInserted = table.Column<DateTime>(type: "datetime", nullable: false),
-                    UserCreatedId = table.Column<int>(nullable: true)
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_News", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_News_User_UserCreatedId",
-                        column: x => x.UserCreatedId,
+                        name: "FK_News_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_UserCreatedId",
+                name: "IX_News_UserId",
                 table: "News",
-                column: "UserCreatedId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

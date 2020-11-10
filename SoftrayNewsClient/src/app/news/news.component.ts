@@ -4,6 +4,9 @@ import { AuthenticationService } from '../services/authentication.service';
 import { NewsService } from './news.service';
 import { News } from '../shared/models/news';
 import { User } from '../shared/models/user';
+import { ModalService } from '../shared/_modal/modal.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NewsStatus } from '../shared/enums/NewsStatus';
 
 @Component({
   selector: 'app-news',
@@ -44,21 +47,108 @@ export class NewsComponent implements OnInit {
 
     Now, that’s not quite the same as actually having another PS5 in that second room; Remote Play tends to introduce a little bit of lag into the mix, so you probably won’t want to turn to it for twitchy games where every millisecond counts. But given that last-gen’s console tends to eventually find itself gathering dust or tucked into another room as a wildly overpowered Blu-ray/Netflix player, this is a pretty great way to extend the PS4’s lifespan. IGN spotted the app this morning, and it appears to be rolling out to users in batches`, status: 0, dateInserted: new Date(), userCreated: null
   }];
+  broadcastingNews: News[];
   user: User = null;
-  
+  openedNews: News = null;
+  searchForm: FormGroup;
+  newsForm: FormGroup;
   constructor(
     private newsService: NewsService,
     private authenticationService: AuthenticationService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private modalService: ModalService,
+    private formBuilder: FormBuilder
   ) {
     this.user = JSON.parse(localStorage.getItem('user'))
+    this.broadcastingNews = this.news;
+    this.searchForm = this.formBuilder.group({
+      searchValue: ['']
+    });
+
+    this.newsForm = this.formBuilder.group({
+      title: [''],
+      text: ['']
+    })
   }
 
   ngOnInit() {
-    this.newsService.getLatestNews().subscribe((response: User[]) => {
-      console.log(response);
-    }, err => {
-      this.toastrService.error(err.error);
+    if (this.user != null) {
+      this.newsService.getLatestNews().subscribe((response: User[]) => {
+        this.news.forEach(element => {
+          element.userCreated = response[0];
+        });
+      }, err => {
+        // if gets called when user is not logged it
+        if (err.status === 401)
+          return;
+        this.toastrService.error(err.error);
+      });
+    }
+  }
+
+  openModal(modalID: string, specificNews: News = null) {
+    this.openedNews = specificNews;
+    if (specificNews == null) {
+      this.resetModalFilters();
+    }
+    else {
+      this.newsForm.patchValue({
+        title: this.openedNews.title,
+        text: this.openedNews.text});
+    }
+    this.modalService.open(modalID);
+  }
+
+  closeModal(modalID: string) {
+    this.resetModalFilters();
+    this.modalService.close(modalID);
+  }
+
+  
+  resetModalFilters() {
+    this.openedNews = null;
+    this.newsForm.patchValue({
+      title: '',
+      text: ''});
+  }
+
+  searchNews() {
+    if (this.searchForm.invalid) {
+      return;
+    }
+
+    const searchValue = this.searchForm.value.searchValue.trim();
+    this.broadcastingNews = this.news.filter(x => x.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()));
+  }
+
+  showOnlyUserNews() {
+    this.broadcastingNews = this.news.filter(x => x.userCreated.id == this.user.id);
+  }
+
+  insertNews(modalID: string) {
+    const news = new News();
+    news.title = this.newsForm.value.title.trim();
+    news.text = this.newsForm.value.text.trim();
+    news.status = NewsStatus.Active;
+    news.dateInserted = new Date();
+    news.userCreated = this.user;
+    console.log(news)
+    this.newsService.insertNews(news).subscribe(response => {
+      this.closeModal(modalID);
+      this.toastrService.success('News added!');
+    }, error => {
+      this.toastrService.error('Something went wrong!');
+    });
+  }
+
+  updateNews(modalID: string, news: News) {
+    news.title = this.newsForm.value.title.trim();
+    news.text = this.newsForm.value.text.trim();
+    this.newsService.updateNews(news).subscribe(response => {
+      this.closeModal(modalID);
+      this.toastrService.success('News updated!');
+    }, error => {
+      this.toastrService.error('Something went wrong!');
     });
   }
 

@@ -18,6 +18,9 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        .search-box {
+            width: 350px;
+        }
     }
     .news-main-specificNews {
         background-color: #ffffff;
@@ -27,6 +30,8 @@
         .news-main-specificNews-title {
             font-size: 32px;
             font-weight: 900;
+            padding-left: 10px;
+            padding-right: 10px;
         }
         .news-main-specificNews-text {
             font-size: 16px;
@@ -44,6 +49,27 @@
     .news-main-specificNews:hover {
         opacity: 0.5;
         cursor: pointer;
+    }
+}
+
+.news-form {
+    .news-filter {
+        textarea {
+          display: block;
+          width: 100%;
+          padding: .5em;
+          padding-right: 2.5em;
+          margin: 0;
+          border-radius: .25rem;
+        }
+        input {
+          display: block;
+          width: 100%;
+          padding: .5em;
+          padding-right: 2.5em;
+          margin: 0;
+          border-radius: .25rem;
+        }
     }
 }
 
@@ -66,7 +92,7 @@
     flex: 10;      
 }
 
-.logout-button {
+.logbutton {
     background-color: white;
     color: black;
 }

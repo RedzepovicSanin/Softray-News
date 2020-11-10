@@ -40,12 +40,12 @@ namespace SoftrayNewsAPI.Migrations
                         .HasColumnType("varchar(max)")
                         .IsUnicode(false);
 
-                    b.Property<int?>("UserCreatedId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserCreatedId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("News");
                 });
@@ -60,12 +60,32 @@ namespace SoftrayNewsAPI.Migrations
                     b.Property<DateTime>("DateInserted")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
+                        .HasColumnType("varchar(max)")
+                        .IsUnicode(false);
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("varchar(max)")
+                        .IsUnicode(false);
+
+                    b.Property<string>("Password")
+                        .HasColumnType("varchar(max)")
+                        .IsUnicode(false);
+
+                    b.Property<string>("Role")
                         .HasColumnType("varchar(max)")
                         .IsUnicode(false);
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("varchar(max)")
+                        .IsUnicode(false);
+
+                    b.Property<string>("Username")
+                        .HasColumnType("varchar(max)")
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -75,8 +95,8 @@ namespace SoftrayNewsAPI.Migrations
             modelBuilder.Entity("SoftrayNewsAPI.DL.Models.News", b =>
                 {
                     b.HasOne("SoftrayNewsAPI.DL.Models.User", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserCreatedId");
+                        .WithMany("News")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

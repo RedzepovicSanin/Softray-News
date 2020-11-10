@@ -14,4 +14,12 @@ export class NewsService {
   getLatestNews() {
       return this.http.get<User[]>(environment.baseConfigUrl + 'Users/GetAllUsers');
   }
+
+  insertNews(news: News) {
+    return this.http.post<News>(environment.baseConfigUrl + 'News/Insert', news);
+  }
+
+  updateNews(news: News) {
+    return this.http.put<News>(environment.baseConfigUrl + 'News/Update', news);
+  }
 }

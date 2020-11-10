@@ -4,36 +4,74 @@
             <span>SOFTRAY NEWS</span>
         </div>
         <div class="news-header-action-buttons">
-            <button *ngIf="user === null" class="btn btn-secondary" [routerLink]="['/login']">Login</button>
-            <button *ngIf="user !== null" class="btn btn-secondary logout-button" (click)="logout()">Logout</button>
+            <button *ngIf="user === null" class="btn btn-secondary logbutton" [routerLink]="['/login']">Login</button>
+            <button *ngIf="user !== null" class="btn btn-secondary logbutton" (click)="logout()">Logout</button>
         </div>
     </div>
     
     <div class="news-main">
-        <div class="news-utilites p-3">
+        <div class="news-utilites p-3" [ngClass]="{
+            'justify-content-between': (this.user != null),
+            'justify-content-end': (this.user == null)
+          }">
+            <button *ngIf="user != null" class="btn btn-secondary" (click)="showOnlyUserNews()">My News</button>
+            <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="searchNews()">
+                <div class="md-form mt-0">
+                    <input class="form-control mr-sm-2 search-box" type="text" placeholder="Search" formControlName="searchValue">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
         </div>
-        <div *ngFor="let specificNews of news" class="container news-main-specificNews">
-            <div class="p-2 d-flex flex-row justify-content-between">
+        <div *ngFor="let specificNews of broadcastingNews" class="container news-main-specificNews">
+            <div class="p-2 d-flex flex-row" >
                 <span class="news-main-specificNews-title">{{specificNews.title}}</span>
-                <button *ngIf="user != null" class="btn btn-primary edit-button">EDIT</button>
+                <button *ngIf="user != null" class="btn btn-primary edit-button" (click)="openModal('news-modal', specificNews)">EDIT</button>
             </div>
             <div class="d-flex flex-row">
                 <div class="d-flex flex-column flex-2 p-3">
                     <span class="news-main-specificNews-date">{{specificNews.dateInserted | date: "dd/MM/yyyy HH:mm"}}</span>
-                    <span class="news-main-specificNews-user">{{'Author: ' + 'Alija Izetbegovic'}}</span>
+                    <span *ngIf="specificNews.userCreated != null" class="news-main-specificNews-user">{{'Author: ' + specificNews.userCreated.firstName + ' ' + specificNews.userCreated.lastName}}</span>
                 </div>
                 <div class="flex-10 p-3">
                     <span class="news-main-specificNews-text">{{specificNews.text}}</span>
                 </div>
             </div>
         </div>
+        <div *ngIf="this.broadcastingNews.length == 0" class="container news-main-specificNews">
+            <span>No news showing..</span>
+        </div>
     </div>
 </div>
 <div *ngIf="user != null" class="news-button">
-    <button class="btn p-2" (click)="openModal(news-modal)">ADD NEWS</button>
+    <button class="btn p-2" (click)="openModal('news-modal')">ADD NEWS</button>
 </div>
 
-<app-modal id="news-modal" class="news-modal" width="40">
-    <h2 class="jw-modal-title">Create News</h2>
-    
+<app-modal id="news-modal" width="50">
+    <div class="jw-modal">
+      <div class="jw-modal-body">
+        <h2 class="modal-title">Add news</h2>
+        <form class="news-form" [formGroup]="newsForm">
+  
+          <div class="news-filter">
+            <label>Title:</label>
+            <input name="title" id="title" formControlName="title"/>
+          </div>
+  
+          <div class="news-filter">
+            <label>Text:</label>
+            <textarea name="text" id="text" cols="5" rows="3" formControlName="text"></textarea>
+          </div>
+  
+          <div class="news-modal-buttons modal-add-buttons">
+            <button *ngIf="this.openedNews == null" (click)="insertNews('news-modal')" class="btn btn-secondary" [disabled]="!this.newsForm.valid">Add</button>
+            <button *ngIf="this.openedNews != null" (click)="updateNews('news-modal', openedNews)" class="btn btn-secondary" [disabled]="!this.newsForm.valid">Update</button>
+            <button class="btn btn-secondary" (click)="closeModal('news-modal')">Zatvori</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="jw-modal-background">
+
+    </div>
 </app-modal>
+

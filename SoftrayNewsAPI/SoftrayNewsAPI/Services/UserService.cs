@@ -25,9 +25,12 @@ namespace SoftrayNewsAPI.Services
 
         private List<User> _users = new List<User>
         {
-            new User { Id = 1, FirstName = "Admin", LastName = "User", Username = "admin", Password = "admin", Role = "Administrator" },
-            new User { Id = 2, FirstName = "Normal", LastName = "User", Username = "user", Password = "user", Role ="Administrator" }
+            new User { Id = 1, FirstName = "Admin", LastName = "User", Username = "admin", Password = "admin", Role = "Administrator", Status = UserStatus.Active, DateInserted = DateTime.Now },
+            new User { Id = 2, FirstName = "Normal", LastName = "User", Username = "user", Password = "user", Role ="Administrator", Status = UserStatus.Active, DateInserted = DateTime.Now }
         };
+        public string Role { get; set; }
+        public UserStatus Status { get; set; }
+        public DateTime DateInserted { get; set; }
         public UserService(dbContext _dbContext)
         {
             dbContext = _dbContext;

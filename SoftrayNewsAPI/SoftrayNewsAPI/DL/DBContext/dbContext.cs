@@ -26,9 +26,9 @@ namespace SoftrayNewsAPI.DL.DBContext
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.FirstName).IsUnicode(false);
                 entity.Property(e => e.LastName).IsUnicode(false);
+                entity.Property(e => e.Username).IsUnicode(false);
                 entity.Property(e => e.Role).IsUnicode(false);
                 entity.Property(e => e.Token).IsUnicode(false);
-                entity.Property(e => e.Username).IsUnicode(false);
                 entity.Property(e => e.Password).IsUnicode(false);
                 entity.Property(e => e.Status);
                 entity.Property(e => e.DateInserted).HasColumnType("datetime");
