@@ -1,0 +1,64 @@
+﻿app-modal {
+  /* modal je sakriven dok se ne pozove */
+  display: none;
+  .app-modal {
+    /* modal fiksiran */
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    overflow: auto;
+  }
+  .app-modal-body {
+    padding: 20px;
+    background: #fff;
+    form { 
+        // width: 350px;
+    }
+  }
+  .app-modal-background {
+    /* modal pozadine fiksiran */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    background-color: #000;
+    opacity: 0.75;
+    
+    /* z-index ispod app-modala a iznad svega ostalog */
+    z-index: 900;
+  }
+}
+
+body .app-modal-open {
+  overflow: hidden;
+}
+
+.modal-add-form {
+  margin-top: 32px;
+}
+
+.modal-add-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px;
+  label {
+    font-size: 18px;
+    margin-bottom: 0px;
+  }
+}
+
+.modal-add-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.modal-title {
+  text-align: center;
+  margin-bottom: 16px;
+}

@@ -1,4 +1,3 @@
-
 <div>
     <div class="news-header p-5">
         <div class="news-header-logo">
@@ -6,33 +5,35 @@
         </div>
         <div class="news-header-action-buttons">
             <button *ngIf="user === null" class="btn btn-secondary" [routerLink]="['/login']">Login</button>
-            <button *ngIf="user !== null" class="btn btn-secondary" (click)="logout()">Logout</button>
+            <button *ngIf="user !== null" class="btn btn-secondary logout-button" (click)="logout()">Logout</button>
         </div>
     </div>
+    
     <div class="news-main">
         <div class="news-utilites p-3">
-            <div class=news-searchBox">
-                <input class="searchInput"type="text" name="" placeholder="Search" />
-                <button class="searchButton" href="#">
-                    <i class="material-icons">
-                        search
-                    </i>
-                </button>
-            </div>
         </div>
-        <div *ngFor="let specificNews of news" class="container">
-            <div class="p-2">
+        <div *ngFor="let specificNews of news" class="container news-main-specificNews">
+            <div class="p-2 d-flex flex-row justify-content-between">
                 <span class="news-main-specificNews-title">{{specificNews.title}}</span>
+                <button *ngIf="user != null" class="btn btn-primary edit-button">EDIT</button>
             </div>
             <div class="d-flex flex-row">
-                <div class="d-flex flex-column">
-                    <span>{{specificNews.dateInserted | date: "dd/MM/yyyy HH:mm"}}</span>
-                    <span>{{'Author: ' + 'Alija Izetbegovic'}}</span>
+                <div class="d-flex flex-column flex-2 p-3">
+                    <span class="news-main-specificNews-date">{{specificNews.dateInserted | date: "dd/MM/yyyy HH:mm"}}</span>
+                    <span class="news-main-specificNews-user">{{'Author: ' + 'Alija Izetbegovic'}}</span>
                 </div>
-                <div>
+                <div class="flex-10 p-3">
                     <span class="news-main-specificNews-text">{{specificNews.text}}</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div *ngIf="user != null" class="news-button">
+    <button class="btn p-2" (click)="openModal(news-modal)">ADD NEWS</button>
+</div>
+
+<app-modal id="news-modal" class="news-modal" width="40">
+    <h2 class="jw-modal-title">Create News</h2>
+    
+</app-modal>

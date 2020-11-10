@@ -5,6 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { RouterModule } from '@angular/router';
 
+import { ModalComponent } from './_modal/modal.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
@@ -21,15 +22,17 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     RouterModule
   ],
   declarations: [
+    ModalComponent,
     PageNotFoundComponent
   ],
   exports: [
+    ModalComponent,
+    PageNotFoundComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     ToastrModule,
-    NgxSpinnerModule,
-    PageNotFoundComponent
+    NgxSpinnerModule
   ]
 })
 

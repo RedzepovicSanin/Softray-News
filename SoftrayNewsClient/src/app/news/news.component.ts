@@ -51,10 +51,10 @@ export class NewsComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private toastrService: ToastrService
   ) {
+    this.user = JSON.parse(localStorage.getItem('user'))
   }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('user'))
     this.newsService.getLatestNews().subscribe((response: User[]) => {
       console.log(response);
     }, err => {

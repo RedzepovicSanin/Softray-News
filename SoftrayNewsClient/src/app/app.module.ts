@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { AppHttpInterceptor } from './app-http-interceptor';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
+import { NewsService } from './news/news.service';
+import { AuthenticationService } from './services/authentication.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
     SharedModule
   ],
   providers: [
+    NewsService,
+    AuthenticationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
